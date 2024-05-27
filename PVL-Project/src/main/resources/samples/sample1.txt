@@ -1,0 +1,63 @@
+ def digit		[0-9]
+ def letter		[a-zA-Z]
+ def exp		[eE]
+ def sign		[+\-]
+ 
+fsm float
+
+	digit	.	exp	sign
+0s	    1 	 -   -  -
+1 	    1   2   -  -
+2e	    3   -   4  -
+3e	    3   -   4  5
+4e	    6   -   -  5
+5 	    6   -   -  5
+6e	    6   -   -  -
+
+fsm integer
+
+	digit
+0s 		1
+1e 		1
+
+fsm key # a single keyword named "key"
+
+		k	e	y
+0s		1	-	-
+1		-	2	-
+2		-	-	3
+3e		-	-	-
+
+fsm identifier
+
+	letter	digit
+0s 		1 		-
+1e 		1 		1
+
+		
+fsm sub_add_op
+
+		+	\-
+0s		1	1
+1e		-	-
+
+fsm times_div_op	
+		*	/
+0s		1	1
+1e		-	-
+
+fsm open_bracket	
+		(
+0s		1
+1e		-
+
+fsm closed_bracket	
+		)
+0s		1
+1e		-
+
+fsm white_space
+
+	\   \n 	 \t  \r
+0s 	1    1    1   1
+1e 	1    1    1   1

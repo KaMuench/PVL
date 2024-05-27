@@ -1,0 +1,55 @@
+def xxx [+-]
+
+# Das ist ein Kommentar, der bis zum Zeilenende geht. 
+def char [a-zA-Z]	# Defintion eines Bereichs names "char" 
+					# der Name einer Definition muss mindestens 
+ 					# zwei Zeichen lang sein 
+def digit [0-9]
+def range [\a-\z]
+def ex   ~[abc]		# Definition eines exklusiven Bereichs (durch ~) 
+def all  ~[]        # Alle Zeichen 
+def plus +          # Definition der Konstanten plus mit dem Wert "+"
+def minus \-         # Definition der Konstanten minus mit dem Wert "-" (- muss escaped werden)
+def pm	  [+\-]
+def space \         # Definition von Zeichen mit Excape-Sequenzen (hier das 
+					# Leerzeichen � grunds�tzlich k�nnen alle Zeichen 
+					# maskiert werden � Zeichen, die anderweitig genutzt werden 
+					# m�ssen maskiert werden (z.B. \, \n, -, [, ], ~ und insbes. 
+					# Whitespaces, da sie als Trennzeichen dienen. 
+def tab \t
+def lf \n
+
+
+ 
+def empty \e		# \e stellt Epsilon dar 
+ 
+fsm bsp1 		# eine Automaten-Definition als Tabelle 
+ 
+	a b [c-z] 		# der Kopf, hier k�nnen die Definitionen genutzt werden 
+0s	1 1 2		# Zustands�berg�nge: s Startzustand, e Endzustand 
+1	1 2 3
+2	3 3 3
+3e	- - 3		# - kein �bergang 
+
+fsm identifier
+
+	char	digit
+0s	1		-
+1e	1		1
+
+ 
+fsm nondet # ein nicht-deterministischer Automat 
+ 
+	a 	b 		\e 			# kann einen Epsilon-�bergang haben 
+0s	1	1|2		1|2|3 		# kann mehrere m�gliche Folgezust�nde haben 
+1e	1 	1 		1
+2	1 	2 		3
+3e	- 	- 		-
+
+fsm nondettwo # ein nicht-deterministischer Automat
+
+	a   b   c   \e
+0s	1|2 1   -	1|2
+1	-   3   1	-
+2	-   2   3	-
+3e	3   -   -   -
